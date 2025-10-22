@@ -1,38 +1,50 @@
-# sv
+# Svelte + Bun + Docker
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## 🚀 Setup & Run
 
-## Creating a project
+### 1. Build Docker image
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```sh
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
+```bash
+docker build -t test-bun-app .
 ```
 
-## Developing
+### 2. Run container
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+```bash
+docker run -p 5173:5173 test-bun-app
 ```
 
-## Building
+### 3. Access app
 
-To create a production version of your app:
+Open: [http://localhost:5173](http://localhost:5173)
 
-```sh
-npm run build
+---
+
+## 🧰 Development Notes
+
+- App runs using `bun run dev --host 0.0.0.0`
+- Port `5173` is exposed to host
+- Uses `oven/bun:latest` as base image
+- Install dependencies via `bun install --frozen-lockfile`
+
+---
+
+## 🧹 Useful Commands
+
+Stop all running containers:
+
+```bash
+docker stop $(docker ps -q)
 ```
 
-You can preview the production build with `npm run preview`.
+Remove all stopped containers:
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+```bash
+docker container prune -f
+```
+
+Rebuild without cache:
+
+```bash
+docker build --no-cache -t test-bun-app .
+```
