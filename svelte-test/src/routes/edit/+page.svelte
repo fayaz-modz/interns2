@@ -1,6 +1,30 @@
 <script>
 	import Button from '../components/Button.svelte';
+
+	let loading = $state(false);
+	let data = $state('no data');
+
+	async function getUserData() {
+		loading = true;
+		const res = await fetch('/api/data', {
+			method: 'POST',
+			body: JSON.stringify({
+				user: 1
+			})
+		});
+
+		data = await res.json();
+		loading = false;
+	}
 </script>
 
 <p>we will edit here</p>
 <Button></Button>
+
+<button onclick={getUserData}>make post requset</button>
+
+{#if loading}
+	<h1>request is loading</h1>
+{:else}
+	<h1>{JSON.stringify(data)}</h1>
+{/if}
