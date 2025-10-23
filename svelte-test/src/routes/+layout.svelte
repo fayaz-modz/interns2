@@ -16,7 +16,7 @@
 
 <style>
 	main {
-		min-height: 100vh;
+		min-height: 90vh;
 	}
 	nav {
 		width: 100%;
