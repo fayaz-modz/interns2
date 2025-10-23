@@ -18,7 +18,7 @@
 	}
 </script>
 
-<p>we will edit here</p>
+<p>We will edit here</p>
 <Button></Button>
 
 <button onclick={getUserData}>make post requset</button>
