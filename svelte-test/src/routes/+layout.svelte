@@ -6,6 +6,7 @@
 	<a href="/">Home</a>
 	<a href="/about">About</a>
 	<a href="/edit">Edit</a>
+	<a href="/grid">Grid</a>
 </nav>
 
 <main>

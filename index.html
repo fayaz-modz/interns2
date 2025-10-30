@@ -3,8 +3,50 @@
         <title>this is test</title>
         <link rel="stylesheet" href="style.css">
     </head>
-    <h2> hello2 </h2>
-    <p>this is a paragraph</p>
-    <li>list</li>
-    <canvas width="200" height="200"></canvas>
+<div class="grid_view">
+	<div class="appbar">appbar</div>
+	<div class="sidebar">sidebar</div>
+	<div class="content">content</div>
+	<div class="footer">footer</div>
+</div>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+	.grid_view {
+		height: 100vh;
+		width: 100vw;
+		display: grid;
+		gap: 10px;
+		grid-template-columns: 300px 1fr;
+		grid-template-rows: 80px 1fr 80px;
+		grid-template-areas:
+			'appbar appbar'
+			'content sidebar'
+			'footer footer';
+
+		div {
+			background: #cfc;
+			display: grid;
+			place-items: center;
+		}
+
+		.appbar {
+			grid-area: appbar;
+		}
+
+		.sidebar {
+			grid-area: sidebar;
+		}
+
+		.content {
+			grid-area: content;
+		}
+		.footer {
+			grid-area: footer;
+		}
+	}
+</style>
 </html>

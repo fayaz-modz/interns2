@@ -1,8 +1,12 @@
-<script>
+<script lang="ts">
 	import Button from '../components/Button.svelte';
 
 	let loading = $state(false);
 	let data = $state('no data');
+
+	interface User {
+		addr: string;
+	}
 
 	async function getUserData() {
 		loading = true;
@@ -16,12 +20,24 @@
 		data = await res.json();
 		loading = false;
 	}
+
+	let value = $state('');
+
+	function runMe() {
+		const user: User = {
+			addr: 'myaddr'
+		};
+	}
 </script>
 
 <p>we will edit here</p>
 <Button></Button>
 
 <button onclick={getUserData}>make post requset</button>
+
+<input type="text" bind:value />
+
+<button onclick={runMe}>run me</button>
 
 {#if loading}
 	<h1>request is loading</h1>
