@@ -1,19 +1,27 @@
 <script lang="ts">
+	import { page } from '$app/state';
+
 	let { children } = $props();
+
+	const url = page.url;
 </script>
 
-<nav>
-	<a href="/">Home</a>
-	<a href="/about">About</a>
-	<a href="/edit">Edit</a>
-	<a href="/grid">Grid</a>
-</nav>
-
-<main>
+{#if url.pathname == '/canvas'}
 	{@render children?.()}
-</main>
+{:else}
+	<nav>
+		<a href="/">Home</a>
+		<a href="/about">About</a>
+		<a href="/edit">Edit</a>
+		<a href="/grid">Grid</a>
+	</nav>
 
-<footer>this is the footer</footer>
+	<main>
+		{@render children?.()}
+	</main>
+
+	<footer>this is the footer</footer>
+{/if}
 
 <style>
 	main {

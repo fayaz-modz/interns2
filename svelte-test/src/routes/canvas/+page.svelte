@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { runCanvas } from './canvas2';
+	import { runCanvas } from './canvas';
 
 	const log: string[] = $state([]);
 
@@ -33,6 +33,7 @@
 		#canvas {
 			width: 100%;
 			height: 100%;
+			border: 8px solid green;
 		}
 		.log {
 			position: absolute;
