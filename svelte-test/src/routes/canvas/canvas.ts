@@ -29,6 +29,7 @@ function createProgram(gl: WebGL2RenderingContext, vs: WebGLShader, fs: WebGLSha
 
 export function runCanvas() {
 	const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+	const fpsElement = document.getElementById('fps');
 
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
@@ -45,7 +46,7 @@ export function runCanvas() {
 
 	// uniforms
 	const uPosLocation = gl.getUniformLocation(program, 'uPos')!;
-	gl.uniform2f(uPosLocation, 0.0, 0.5);
+	gl.uniform2f(uPosLocation, -0.4, 0.6);
 
 	// attribute
 	const aPosLocation = gl.getAttribLocation(program, 'aPos')!;
@@ -70,5 +71,64 @@ export function runCanvas() {
 
 	gl.vertexAttribPointer(aPosLocation, 2, gl.FLOAT, false, 2 * 4, 0);
 
-	gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+	// instance
+	const aInstancePosLocation = gl.getAttribLocation(program, 'aInstancePos')!;
+	gl.enableVertexAttribArray(aInstancePosLocation);
+	const instancePosBuffer = gl.createBuffer()!;
+	gl.bindBuffer(gl.ARRAY_BUFFER, instancePosBuffer);
+	const instancePosData = new Float32Array(
+		// prettier-ignore
+		[
+	           -0.1, -0.8,
+	           0.8, 0.0,
+	           0.4, 0.0,
+	           0.0, 0.2,
+	           -0.2, 0.2,
+	       ]
+	);
+	gl.bufferData(gl.ARRAY_BUFFER, instancePosData, gl.STATIC_DRAW);
+
+	gl.vertexAttribPointer(aInstancePosLocation, 2, gl.FLOAT, false, 2 * 4, 0);
+
+	// IMPORTANT to differenciate from normal buffers to instance buffers
+	gl.vertexAttribDivisor(aInstancePosLocation, 1);
+
+	// dynamic rendering
+
+	let x = 0;
+	let y = 0;
+
+	// fps: frames per second
+	let lastFrame = 0; // time
+	let frames = 0; // count of frames
+	let fps = 0;
+
+	function draw() {
+		gl.uniform2f(uPosLocation, x, y);
+		gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, 5);
+
+		frames = frames + 1;
+		if (frames > 10) fpsCalculate();
+		requestAnimationFrame(draw);
+	}
+
+	document.addEventListener('pointermove', (e) => {
+		const posX = e.clientX / window.innerWidth;
+		const posY = e.clientY / window.innerHeight;
+		const transformedX = posX * 2 - 1;
+		const transformedY = posY * 2 - 1;
+
+		x = transformedX;
+		y = -transformedY;
+	});
+
+	draw();
+
+	const fpsCalculate = () => {
+		const timeTook = (performance.now() - lastFrame) / 1000;
+		fps = frames / timeTook;
+		if (fpsElement) fpsElement.innerHTML = `${fps.toFixed(2)} FPS`;
+		frames = 0;
+		lastFrame = performance.now();
+	};
 }

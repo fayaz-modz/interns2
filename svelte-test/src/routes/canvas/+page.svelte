@@ -21,6 +21,8 @@
 
 <canvas id="canvas"></canvas>
 
+<div id="fps">0</div>
+
 <style>
 	:global {
 		* {
@@ -34,6 +36,14 @@
 			width: 100%;
 			height: 100%;
 			border: 8px solid green;
+		}
+		#fps {
+			position: fixed;
+			right: 0;
+			top: 0;
+			padding: 16px;
+			font-weight: bold;
+			font-size: 18px;
 		}
 		.log {
 			position: absolute;
